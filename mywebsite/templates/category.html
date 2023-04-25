@@ -1,0 +1,27 @@
+{%extends 'base.html' %}
+
+{%block title%} Welcome to Debugger Blogs {%endblock%}
+
+{%block content%}
+
+<div class="container-custom">
+
+    <h3>{{cat.title}}</h3>
+    <div class="img-container">
+        <img src="/media/{{cat.image}}" class="responsive-img" style="max-height: 450px; width:100%; object-fit: cover;"
+             alt="">
+    </div>
+
+    <div class="collection">
+        {%for p in posts %}
+        <a href="/blogs/{{p.url}}" class="collection-item">{{p.title}}</a>
+
+        {% empty %}
+        <h3>No Post in this Category</h3>
+        {%endfor%}
+    </div>
+
+</div>
+
+
+{%endblock%}
