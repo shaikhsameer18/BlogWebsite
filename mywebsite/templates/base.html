@@ -1,62 +1,21 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> {%block title%} {%endblock%} </title>
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css'%}">
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}">
-    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css'%}">
-
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Debuggers Blog{% endblock %}</title>
+    <meta name="description" content="{% block description %}Debuggers Blog — where problems are converted into solutions. Writing on code, AI, and the tools we build with.{% endblock %}">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23201d17'/%3E%3Ctext x='50' y='68' font-size='58' font-family='monospace' fill='%232f6e4e' text-anchor='middle'%3E%3E_%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
-{%include 'header.html' %}
-{%block content %}
-{%endblock%}
-
+{% include 'header.html' %}
+<main>
+{% block content %}{% endblock %}
+</main>
 {% include 'footer.html' %}
-
-<script>
-     M.AutoInit();
-
-</script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-<script src="{% static 'js/owl.carousel.min.js'%}"></script>
-<script>
-    $(document).ready(function(){
-  $(".owl-carousel").owlCarousel({
-          loop: true,
-
-          autoplay: true,
-
-          nav: false,
-          responsiveClass: true,
-          responsive: {
-            0: {
-              items: 1,
-              nav: true,
-            },
-            600: {
-              items: 3,
-              nav: false,
-            },
-            1000: {
-              items: 3,
-              nav: true,
-              loop: false,
-            },
-          },
-        });
-});
-
-</script>
+<script src="{% static 'js/script.js' %}"></script>
+{% block extra_body %}{% endblock %}
 </body>
 </html>

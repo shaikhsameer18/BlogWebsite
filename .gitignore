@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Django
+mywebsite/db.sqlite3
+mywebsite/staticfiles/
+*.log
+local_settings.py
+
+# Environment variables
+.env
+
+# Note: mywebsite/media/ ships with seed demo images and is intentionally
+# tracked. New uploads added through the admin in production should not be
+# committed back — that's a deploy-target concern, not something .gitignore
+# can distinguish once the folder is already tracked.
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

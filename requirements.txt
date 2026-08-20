@@ -1,2 +1,8 @@
-django
-Pillow
+Django==4.2.30
+Pillow==12.3.0
+django-material==1.12.0
+whitenoise==6.12.0
+dj-database-url==3.1.2
+psycopg2-binary==2.9.12
+python-decouple==3.8
+gunicorn==26.1.0

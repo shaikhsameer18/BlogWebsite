@@ -1,63 +1,99 @@
-{%extends 'base.html' %}
+{% extends 'base.html' %}
 
-{%block title%} Welcome to Debugger Blogs {%endblock%}
+{% block title %}Debuggers Blog — where problems become posts{% endblock %}
 
-{%block content%}
+{% block content %}
 
-<div class="container-custom">
-
-    <div class="owl-carousel">
-        {% for cat in cats %}
-        <div class="card item" style="margin-left: 10px;">
-            <div class="img-container">
-                <img src="/media/{{cat.image}}" class="responsive-img" alt="">
-            </div>
-            <div class="card-content">
-                <div class="card-title">
-                    {{cat.title}}
-                </div>
-                <p class="truncate">{{cat.description}}</p>
-                <div class="container center-align mt20">
-                    <a href="/category/{{cat.url}}" class="btn bg-primary">VIEW</a>
-                </div>
-            </div>
-
-
-        </div>
-        {%endfor%}
-    </div>
-</div>
-
-
-<div class="container">
-    <div class="row">
-        <div class="col s12">
-
-
-            {%for p in posts %}
-
-            <div class="row">
-                <div class="col s12 m8">
-                    {{p.content|truncatewords:60|safe}}
-                    <div class="mt20">
-                        <a href="/blogs/{{p.url}}" class="btn bg-primary">Read More..</a>
-                    </div>
-                </div>
-
-                <div class="col s12 m4">
-                    <img src="/media/{{p.image}}" class="responsive-img" style="margin-top: 50px">
-                </div>
-
-
-            </div>
-            {%endfor %}
-
-
-        </div>
-
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <div class="hero__kicker eyebrow">status: shipping</div>
+      <h1>We turn stack traces into <span class="accent">stories</span>.</h1>
+      <p class="hero__sub">Debuggers Blog is a running log of what we learn building software — code, AI, and everything that breaks along the way.</p>
+      <div class="hero__actions">
+        <a href="#latest" class="btn">read the latest</a>
+        <a href="#categories" class="btn btn--ghost">browse categories</a>
+      </div>
     </div>
 
-</div>
+    <div class="console" aria-hidden="true">
+      {{ console_lines|json_script:"console-lines" }}
+      <div class="console__bar">
+        <span class="console__dot"></span><span class="console__dot"></span><span class="console__dot"></span>
+        <span class="console__title">debuggers.log</span>
+      </div>
+      <div class="console__body" data-console-body></div>
+    </div>
+  </div>
+</section>
 
+<section class="section" id="categories">
+  <div class="wrap">
+    <div class="section__head">
+      <h2>Categories</h2>
+      <span class="section__note">{{ cats|length }} tracked</span>
+    </div>
+    <div class="tabstrip">
+      {% for cat in cats %}
+      <a href="/category/{{ cat.url }}" class="tabcard" style="text-decoration:none;">
+        <div class="tabcard__tab"><span>{{ cat.url }}.md</span></div>
+        <div class="tabcard__media"><img src="/media/{{ cat.image }}" alt="{{ cat.title }}" loading="lazy"></div>
+        <div class="tabcard__body">
+          <div class="tabcard__title">{{ cat.title }}</div>
+          <p class="tabcard__desc">{{ cat.description }}</p>
+          <span class="tabcard__link">browse</span>
+        </div>
+      </a>
+      {% empty %}
+      <p class="empty-state">No categories yet — add one from /admin/.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 
-{%endblock%}
+<section class="section section--divider" id="latest">
+  <div class="wrap">
+    <div class="section__head">
+      <h2>Latest posts</h2>
+      <span class="section__note">page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+    </div>
+
+    <div class="postgrid">
+      {% for p in posts %}
+        {% if forloop.first and posts.number == 1 %}
+        <article class="postcard postcard--featured is-visible">
+          <div class="postcard__media"><img src="/media/{{ p.image }}" alt="{{ p.title }}"></div>
+          <div class="postcard__inner">
+            <div class="postcard__meta"><span class="diff-add">+ new</span><span>{{ p.cat.title }}</span></div>
+            <div class="postcard__title">{{ p.title }}</div>
+            <p class="postcard__excerpt">{{ p.content|striptags|truncatewords:34 }}</p>
+            <a href="/blogs/{{ p.url }}" class="postcard__read">Read more</a>
+          </div>
+        </article>
+        {% else %}
+        <article class="postcard">
+          <div class="postcard__media"><img src="/media/{{ p.image }}" alt="{{ p.title }}" loading="lazy"></div>
+          <div class="postcard__meta"><span>{{ p.cat.title }}</span></div>
+          <div class="postcard__title">{{ p.title }}</div>
+          <p class="postcard__excerpt">{{ p.content|striptags|truncatewords:18 }}</p>
+          <a href="/blogs/{{ p.url }}" class="postcard__read">Read more</a>
+        </article>
+        {% endif %}
+      {% empty %}
+      <p class="empty-state">No posts published yet — add one from /admin/.</p>
+      {% endfor %}
+    </div>
+
+    {% if posts.paginator.num_pages > 1 %}
+    <nav class="pager" aria-label="Pagination">
+      {% if posts.has_previous %}<a href="?page={{ posts.previous_page_number }}">&larr; prev</a>{% endif %}
+      {% for n in posts.paginator.page_range %}
+        {% if n == posts.number %}<span class="is-current">{{ n }}</span>{% else %}<a href="?page={{ n }}">{{ n }}</a>{% endif %}
+      {% endfor %}
+      {% if posts.has_next %}<a href="?page={{ posts.next_page_number }}">next &rarr;</a>{% endif %}
+    </nav>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

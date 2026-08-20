@@ -1,12 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Team Members:</title>
-</head>
-<body>
-<h1>Sameer Ahmed : Leader</h1>
-<h1>Sufiyan Shaikh</h1>
-<h1>Tauseeb Siddiqui</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}About — Debuggers Blog{% endblock %}
+{% block description %}Debuggers Blog is written by three engineers who'd rather write up a bug than let it happen twice.{% endblock %}
+
+{% block content %}
+
+<div class="wrap">
+  <section class="mission">
+    <div>
+      <div class="eyebrow">about</div>
+      <h1 style="font-size:clamp(2rem,3.6vw,2.8rem); margin-top:0.4rem; max-width:14ch;">Every post starts as a bug we couldn't leave alone.</h1>
+      <p class="hero__sub" style="margin-top:1rem;">The Debuggers is a three-person team that writes about the code, tools, and ideas we run into while building things. No filler — if it made it here, it's because it cost us an afternoon and we didn't want it to cost you one too.</p>
+      <div class="stat-row">
+        <div class="stat"><span class="stat__num">{{ cats|length }}</span><span class="stat__label">categories</span></div>
+        <div class="stat"><span class="stat__num">03</span><span class="stat__label">contributors</span></div>
+        <div class="stat"><span class="stat__num">2023</span><span class="stat__label">since</span></div>
+      </div>
+    </div>
+    <blockquote>&ldquo;Where problems are converted into solutions.&rdquo;</blockquote>
+  </section>
+
+  <section class="section section--divider">
+    <div class="section__head">
+      <h2>Contributors</h2>
+      <span class="section__note">git shortlog -sn</span>
+    </div>
+
+    <div class="team">
+      <div class="member">
+        <div class="member__row">
+          <div class="member__avatar">SA</div>
+          <div>
+            <div class="member__name">Sameer Ahmed</div>
+            <div class="member__role">Team Lead</div>
+          </div>
+        </div>
+        <div class="member__commit"><span class="diff-add">+</span> keeps the project shipping and the scope honest.</div>
+      </div>
+
+      <div class="member">
+        <div class="member__row">
+          <div class="member__avatar">SS</div>
+          <div>
+            <div class="member__name">Sufiyan Shaikh</div>
+            <div class="member__role">Contributor</div>
+          </div>
+        </div>
+        <div class="member__commit"><span class="diff-add">+</span> writes the posts that started as "quick" fixes.</div>
+      </div>
+
+      <div class="member">
+        <div class="member__row">
+          <div class="member__avatar">TS</div>
+          <div>
+            <div class="member__name">Tauseeb Siddiqui</div>
+            <div class="member__role">Contributor</div>
+          </div>
+        </div>
+        <div class="member__commit"><span class="diff-add">+</span> tests the things everyone else assumed worked.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

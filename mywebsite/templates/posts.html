@@ -1,47 +1,56 @@
-{%extends 'base.html' %}
+{% extends 'base.html' %}
 
-{%block title%} POST {%endblock%}
+{% block title %}{{ post.title }} — Debuggers Blog{% endblock %}
+{% block description %}{{ post.content|striptags|truncatewords:28 }}{% endblock %}
 
-{%block content%}
+{% block content %}
 
-<div class="container-custom">
-    <div class="row">
-        <div class="col s12 m10">
+<article class="wrap article">
+  <div class="article__gutter" aria-hidden="true">
+    {% for n in gutter_lines %}{{ n }}<br>{% endfor %}
+  </div>
 
-            <h3>{{post.title}}</h3>
-
-            <p>( {{post.cat.title}} )</p>
-
-            <img src="/media/{{post.image}}" class="responsive-img" alt="">
-
-            <br>
-            <p>
-                {{post.content|safe}}
-            </p>
-        </div>
-
-        <div class="col s12 m2">
-            {% for cat in cats %}
-            <div class="card item" style="margin-left: 10px;">
-                <div class="img-container">
-                    <img src="/media/{{cat.image}}" class="responsive-img" alt="">
-                </div>
-                <div class="card-content">
-
-                    <b> {{cat.title}}</b>
-                    <p class="truncate">{{cat.description}}</p>
-                    <div class="container center-align mt20">
-                        <a href="/category/{{cat.url}}" class="btn bg-primary">VIEW</a>
-                    </div>
-                </div>
-
-
-            </div>
-            {%endfor%}
-        </div>
+  <div>
+    <div class="article__head">
+      <div class="article__meta mono">// {{ post.cat.title }}</div>
+      <h1>{{ post.title }}</h1>
     </div>
-</div>
 
+    <div class="article__media"><img src="/media/{{ post.image }}" alt="{{ post.title }}"></div>
 
-{%endblock%}
+    <div class="article__body">
+      {{ post.content|safe }}
+    </div>
 
+    <div style="margin-top:2rem;">
+      <a href="/category/{{ post.cat.url }}" class="btn btn--ghost">&larr; more in {{ post.cat.title }}</a>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sidebar__label">Related in {{ post.cat.title }}</div>
+    {% for r in related %}
+    <a href="/blogs/{{ r.url }}" class="sidebar-card">
+      <div class="sidebar-card__media"><img src="/media/{{ r.image }}" alt="{{ r.title }}" loading="lazy"></div>
+      <div>
+        <div class="sidebar-card__title">{{ r.title }}</div>
+        <div class="sidebar-card__cat">{{ r.cat.title }}</div>
+      </div>
+    </a>
+    {% empty %}
+    <p class="site-footer__tag">No related posts yet.</p>
+    {% endfor %}
+
+    <div class="sidebar__label" style="margin-top:2rem;">All categories</div>
+    {% for cat in cats %}
+    <a href="/category/{{ cat.url }}" class="sidebar-card">
+      <div class="sidebar-card__media"><img src="/media/{{ cat.image }}" alt="{{ cat.title }}" loading="lazy"></div>
+      <div>
+        <div class="sidebar-card__title">{{ cat.title }}</div>
+      </div>
+    </a>
+    {% endfor %}
+  </aside>
+</article>
+
+{% endblock %}
